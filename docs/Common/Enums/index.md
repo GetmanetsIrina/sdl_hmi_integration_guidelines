@@ -643,7 +643,8 @@
 |VEHICLE_DIAGNOSTICS|16||
 |EMERGENCY|17||
 |MEDIA|18||
-|FOTA|19||
+|FOTA|19||  
+|OEM_SPECIFIC|20||
 
 ### ConsentSource
 

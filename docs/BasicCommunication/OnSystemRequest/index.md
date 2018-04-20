@@ -15,13 +15,15 @@ An `OnSystemRequest` is a notification that can be used for a couple of differen
   * As a response to a request from the device or cloud. In this case binary data could be included in the hybrid part of the message to the mobile device.
   * As a request to the mobile side to stop a current upload/data transfer via a `PutFile`.
 
-`RequestType` defines the type of the requested data from a mobile device or the cloud. The HMI may request this data, but it's SDL's responsibility to block a `SystemRequest` in case the request intends to transfer a data type not allowed by the policy table.
+`RequestType` defines the type of the requested data from a mobile device or the cloud. The HMI may request this data, but it's SDL's responsibility to block a `SystemRequest` in case the request intends to transfer a data type not allowed by the policy table.  
+`requestSubType` is filled for supporting OEM proprietary data exchanges.
 
-The HMI is informed about `requestTypes` that are allowed by policies via [OnAppPermissionChanged](../../sdl/onapppermissionchanged) and [OnAppRegistered](../onappregistered).
+The HMI is informed about `requestTypes`, `requestSubType` that are allowed by policies via [OnAppPermissionChanged](../../sdl/onapppermissionchanged) and [OnAppRegistered](../onappregistered).
 
 !!! NOTE
 
-If the HMI sends `OnSystemRequest` with a request type disallowed by the policy table, SDL will ignore it.
+If the HMI sends `OnSystemRequest` with a request type disallowed by the policy table, SDL will ignore it.  
+In case PT contains some value for `requestSubType` param and the HMI sends `OnSystemRequest` with `requestSubType=<not_in_PT>`, SDL does not forward this notification to mobile app. 
 
 !!!
 
@@ -36,7 +38,8 @@ HMI must send `OnSystemRequest` if specific data is requested from the mobile de
 
 |Name|Type|Mandatory|Additional|
 |:---|:---|:--------|:---------|
-|requestType|[Common.RequestType](../../common/enums/#requesttype)|true||
+|requestType|[Common.RequestType](../../common/enums/#requesttype)|true||  
+|requestSubType|String|false|maxlength: 255|
 |url|String|false|minlength: 1<br>maxlength: 1000|
 |fileType|[Common.FileType](../../common/enums/#filetype)|false||
 |offset|Integer|false|minvalue: 0<br>maxvalue: 100000000000|
